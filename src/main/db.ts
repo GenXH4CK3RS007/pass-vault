@@ -1,33 +1,47 @@
 import { verbose as sqliteVerbose } from 'sqlite3';
-import { Sequelize, DataTypes } from 'sequelize';
+import { Sequelize, DataTypes, ModelCtor, Model } from 'sequelize';
+import fs from 'fs/promises';
+import path from 'path';
 // const EncryptedField = require('sequelize-encrypted');
-
+export const DB_FILE_NAME = 'pass-vault-data.db';
 const sqlite3 = sqliteVerbose();
-const database = new sqlite3.Database(':memory:');
 
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-});
-
-const PasswordCtor = sequelize.define('password', {
-  key: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  value: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-});
-
-export async function init() {
+let PasswordCtor: ModelCtor<Model<any, any>>;
+export async function init(dataFolder: string) {
   try {
+    const filePath = path.join(dataFolder, DB_FILE_NAME);
+
+    let isCreateDBSuccess = true;
+    const database = new sqlite3.Database(
+      filePath,
+      sqlite3.OPEN_READWRITE,
+      (err) => {
+        if (err) {
+          console.error(err.message);
+          isCreateDBSuccess = false;
+        }
+        console.log('Connected to the chinook database.');
+      },
+    );
+
+    if (!isCreateDBSuccess) return false;
+    const sequelize = new Sequelize({
+      dialect: 'sqlite',
+      storage: filePath,
+    });
+
+    PasswordCtor = sequelize.define('password', {
+      key: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      value: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    });
     await sequelize.authenticate();
     await sequelize.sync();
-    await PasswordCtor.create({ key: 'adgdg', value: 'ffh' });
-    await PasswordCtor.create({ key: 'vrrfv', value: 'jyrg' });
-    await PasswordCtor.create({ key: 'ewfgwg', value: 'gfdrh' });
-    await PasswordCtor.create({ key: 'rhsrfr', value: 'htd' });
     return true;
   } catch (error) {
     return false;

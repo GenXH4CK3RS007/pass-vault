@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Password } from '../types';
+import { Link } from 'react-router-dom';
 
 export default function HomePage() {
   const [passwords, setPasswords] = useState<Password[]>([]);
@@ -23,6 +24,7 @@ export default function HomePage() {
           );
         })}
       </ul>
+      <Link to="/auth">auth</Link>
     </div>
   );
 }

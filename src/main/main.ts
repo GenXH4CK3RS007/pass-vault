@@ -85,7 +85,7 @@ const createWindow = async () => {
     },
   });
 
-  await db.init();
+  await db.init(app.getPath('userData'));
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 
