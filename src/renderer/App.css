@@ -8,6 +8,11 @@
   src: url("../../assets/RubikMonoOne-Regular.ttf");
 }
 
+@font-face {
+  font-family: "Material Symbols Rounded";
+  src: url("../../assets/MaterialSymbolsRounded[FILL\,GRAD\,opsz\,wght].ttf");
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
