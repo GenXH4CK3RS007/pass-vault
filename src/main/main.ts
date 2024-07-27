@@ -12,7 +12,6 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import * as db from './db';
 
@@ -26,13 +25,20 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('ipc-example', async (event, arg) => {
+ipcMain.on('ipc-example', async (event, arg: string) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
   console.log(msgTemplate(arg));
   event.reply('ipc-example', msgTemplate('pong'));
 });
-ipcMain.on('db-get-records', async (event, arg) => {
-  event.reply('db-get-records', await db.getPasswords());
+ipcMain.on('db-init', async (event, args: string) => {
+  event.reply('db-init', await db.init(app.getPath('userData'), args));
+});
+ipcMain.on('db-get-records', async (event) => {
+  const data = await db.getPasswords();
+  if (data === 'wrong_passkey') {
+    event.reply('db-init', false);
+  }
+  event.reply('db-get-records', data);
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -82,10 +88,11 @@ const createWindow = async () => {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
+      devTools: false,
     },
   });
 
-  await db.init(app.getPath('userData'));
+  mainWindow.removeMenu();
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 
@@ -104,8 +111,8 @@ const createWindow = async () => {
     mainWindow = null;
   });
 
-  const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
+  // const menuBuilder = new MenuBuilder(mainWindow);
+  // menuBuilder.buildMenu();
 
   // Open urls in the user's browser
   mainWindow.webContents.setWindowOpenHandler((edata) => {

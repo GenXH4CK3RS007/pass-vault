@@ -1,17 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../contexts/AuthContext';
 
-export type AuthPageProps = {
-  onSubmit: (password: string) => void;
-};
-
-export default function AuthPage({ onSubmit }: AuthPageProps) {
+export default function AuthPage() {
   const navigate = useNavigate();
+  const authContext = useAuthContext();
   const [passKeyInputValue, setPassKeyInputValue] = useState<string>('');
   return (
     <div className="h-full flex flex-col justify-center items-center from-blue-500 to-violet-600 bg-gradient-to-br">
-      <div className="flex flex-col w-[20%] min-w-[400px] px-12 py-10 rounded-xl bg-white/90">
-        <p className="font-emph text-3xl text-center">Sign In</p>
+      <div className="flex flex-col w-[20%] min-w-[400px] px-12 py-10 rounded-xl bg-white/90 shadow-2xl">
+        <p className="font-emph text-2xl text-center">Sign In</p>
         <hr className="border-b w-full" />
         <label htmlFor="passkey-input" className="p-2 mt-[10%] mb-[10%]">
           <p className="text-lg">Enter passkey</p>
@@ -34,7 +32,7 @@ export default function AuthPage({ onSubmit }: AuthPageProps) {
             className="flex items-center px-4 py-1 rounded space-x-1 bg-blue-600 text-white text-lg font-semibold"
             type="button"
             onClick={() => {
-              onSubmit(passKeyInputValue);
+              authContext.login!(passKeyInputValue);
               navigate('/');
             }}
           >
