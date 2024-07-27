@@ -8,7 +8,7 @@ import webpackPaths from './webpack.paths';
 import { dependencies as externals } from '../../release/app/package.json';
 
 const configuration: webpack.Configuration = {
-  externals: [...Object.keys(externals || {})],
+  externals: ['pg', 'sqlite3', 'tedious', 'pg-hstore'],
 
   stats: 'errors-only',
 
