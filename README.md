@@ -1,6 +1,6 @@
 # PASS-VAULT
 
-<img src="icon-hor-large.jpg" width="100%"/>
+<img src=".app-img/icon-hor-large.jpg" width="100%"/>
 
 **PASS-VAULT** is a personal password manager application built using the electron-boilerplate-react framework. It is designed to help users securely store and manage their passwords. The application ensures the highest level of security by encrypting stored passwords using SQLite3, Sequelize ORM, and sequelize-encrypted package with user-provided passkeys.
 
@@ -23,6 +23,37 @@
 - **SQLite3 NPM library**: A self-contained, high-reliability, embedded, full-featured, public-domain, SQL database engine.
 - **Sequelize ORM**: A promise-based Node.js ORM for Postgres, MySQL, MariaDB, SQLite, and Microsoft SQL Server.
 - **sequelize-encrypted NPM library**: A Sequelize plugin to add encrypted fields to models.
+
+# Installation:
+### For Windows
+Download the Setup executable file from the releases page and run.
+### For linux or macOS (Build from source)
+Clone the repository
+```
+git clone --depth 1 --branch main https://github.com/GenXHackers/pass-vault.git your-project-name
+cd your-project-name
+npm install
+```
+or Install source code from Version 1.0.0 Release
+Package the application for your OS
+```
+npm run package
+```
+# Usage
+1. A passkey is prompted initial app use.
+<img src=".app-imgs/initial-sign-in.png" width="100%"/>
+
+2. Welcome Page
+<img src=".app-imgs/initial-home-page.png" width="100%"/>
+
+3. New Password page
+<img src="new-page.png" width="100%"/>
+
+4. Existing Password Page
+<img src=".app-imgs/existing-new-page.png" width="100%"/>
+
+4. Home Page
+<img src=".app-imgs/home-page.png" width="100%"/>
 
 ## License
 
