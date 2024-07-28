@@ -1,6 +1,6 @@
 # PASS-VAULT
 
-<img src=".app-img/icon-hor-large.jpg" width="100%"/>
+<img src=".app-imgs/icon-hor-large.jpg" width="100%"/>
 
 **PASS-VAULT** is a personal password manager application built using the electron-boilerplate-react framework. It is designed to help users securely store and manage their passwords. The application ensures the highest level of security by encrypting stored passwords using SQLite3, Sequelize ORM, and sequelize-encrypted package with user-provided passkeys.
 
