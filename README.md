@@ -7,7 +7,6 @@
 ## Features
 
 - **Encryption**: The passwords are encrypted using a user-provided passkey. The encryption and decryption processes are handled by sequelize-encrypted.
-- **Random Password Generation**: Generate strong and random passwords to enhance your security.
 - **Password Validation**: Check if the entered password meets the required standards of complexity and strength.
 - **Add New Passwords**: Easily add new passwords to your vault.
 - **Update Existing Passwords**: Update or modify existing passwords stored in your vault.
