@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthenticatedTemplate from './AuthenticatedTemplate';
 import usePasswordValidation from '../hooks/usePasswordValidation';
+import PasswordValidityIndicator from './PasswordValidityIndicator';
 
 type NewPasswordPageProps = {
   isExisting: boolean;
@@ -10,6 +11,7 @@ type NewPasswordPageProps = {
 export default function NewPasswordPage({ isExisting }: NewPasswordPageProps) {
   const navigate = useNavigate();
   const [nameInputValue, setNameInputValue] = useState<string>();
+  const [domainInputValue, setDomainInputValue] = useState<string>();
   const [passwordInputValue, setPasswordInputValue] = useState<string>();
   const passwordValidityParams = usePasswordValidation(
     passwordInputValue ?? '',
@@ -19,17 +21,22 @@ export default function NewPasswordPage({ isExisting }: NewPasswordPageProps) {
     setPasswordInputValue('');
   };
   const handleAddButtonClick = () => {
-    if (nameInputValue === '' || passwordInputValue === '') return;
+    if (
+      nameInputValue === '' ||
+      domainInputValue === '' ||
+      passwordInputValue === ''
+    )
+      return;
     window.electron.ipcRenderer.once('db-new-password', (res) => {
       if (res) {
         navigate('/');
       }
     });
-    window.electron.ipcRenderer.sendMessage(
-      'db-new-password',
-      nameInputValue,
-      passwordInputValue,
-    );
+    window.electron.ipcRenderer.sendMessage('db-new-password', {
+      key: nameInputValue,
+      value: passwordInputValue,
+      domain: domainInputValue,
+    });
   };
 
   return (
@@ -53,6 +60,21 @@ export default function NewPasswordPage({ isExisting }: NewPasswordPageProps) {
           </p>
         </label>
         <label htmlFor="passkey-input" className="p-2 mt-[10%] mb-[10%]">
+          <p className="text-lg">Domain</p>
+          <input
+            id="domain-input"
+            type="text"
+            className="border-2 border-slate-300 bg-transparent focus:outline-blue-600 rounded-lg px-4 py-1  min-w-full md:min-w-[300px]"
+            value={domainInputValue}
+            onChange={(e) => setDomainInputValue(e.target.value)}
+          />
+          <p className="text-xs text-red-500">
+            {domainInputValue === undefined || domainInputValue?.length === 0
+              ? 'Domain is required'
+              : ''}
+          </p>
+        </label>
+        <label htmlFor="passkey-input" className="p-2 mt-[10%] mb-[10%]">
           <p className="text-lg">Password</p>
           <input
             id="password-input"
@@ -61,23 +83,17 @@ export default function NewPasswordPage({ isExisting }: NewPasswordPageProps) {
             value={passwordInputValue}
             onChange={(e) => setPasswordInputValue(e.target.value)}
           />
-          {!isExisting ? (
-            <p className="text-xs font-semibold">
-              A strong password should contain:
+          {isExisting &&
+          (passwordInputValue === undefined ||
+            passwordInputValue.length === 0) ? (
+            <p className="text-xs text-red-500">
+              {domainInputValue === undefined || domainInputValue?.length === 0
+                ? 'Domain is required'
+                : ''}
             </p>
           ) : (
-            ''
+            <PasswordValidityIndicator params={passwordValidityParams} />
           )}
-          <ul className="text-xs text-red-500 px-1">
-            {!isExisting
-              ? passwordValidityParams.map((vp) => <li>{vp}</li>)
-              : ''}
-            {isExisting &&
-            (passwordInputValue === undefined ||
-              passwordInputValue.length === 0)
-              ? 'Password is required'
-              : ''}
-          </ul>
         </label>
         <div className="md:self-start self-end flex space-x-2">
           <button
@@ -94,6 +110,8 @@ export default function NewPasswordPage({ isExisting }: NewPasswordPageProps) {
               (!isExisting && passwordValidityParams.length > 0) ||
               nameInputValue === undefined ||
               nameInputValue?.length === 0 ||
+              domainInputValue === undefined ||
+              domainInputValue?.length === 0 ||
               passwordInputValue === undefined ||
               passwordInputValue?.length === 0
             }

@@ -26,13 +26,13 @@ function useProvideAuthContext() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const login = async (passkey: string) => {
-    window.electron.ipcRenderer.sendMessage('db-init', passkey);
     window.electron.ipcRenderer.once('db-init', (res: any) => {
       setIsAuthenticated(res);
       // if (!res && msg) {
       //   errorContext.logError!('Authentication', 'erro', msg);
       // }
     });
+    window.electron.ipcRenderer.sendMessage('db-init', passkey);
     setIsAuthenticated(true);
   };
 

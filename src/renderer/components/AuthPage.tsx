@@ -1,20 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthContext';
+import usePasswordValidation from '../hooks/usePasswordValidation';
+import PasswordValidityIndicator from './PasswordValidityIndicator';
 
 export default function AuthPage() {
-  const navigate = useNavigate();
   const authContext = useAuthContext();
   const [passKeyInputValue, setPassKeyInputValue] = useState<string>('');
+  const navigate = useNavigate();
+  const passwordValidityParams = usePasswordValidation(passKeyInputValue ?? '');
+  const [fileExists, setFileExists] = useState(false);
   const handleCancelButtonClick = () => {
     setPassKeyInputValue('');
   };
+  useEffect(() => {
+    window.electron.ipcRenderer.once('db-pre-init', (res: any) => {
+      setFileExists(res);
+    });
+    window.electron.ipcRenderer.sendMessage('db-pre-init');
+  }, []);
   return (
     <div className="absolute inset-0 flex flex-col justify-center items-center from-blue-500 to-violet-600 bg-gradient-to-br">
       <div className="flex flex-col w-[20%] min-w-[400px] px-12 py-10 rounded-xl bg-white/90 shadow-2xl">
         <p className="font-emph text-2xl text-center">Sign In</p>
         <hr className="border-b w-full" />
-        <label htmlFor="passkey-input" className="p-2 mt-[10%] mb-[10%]">
+        {!fileExists ? (
+          <p className="text-sm text-justify mt-[5%]">
+            Welcome to PassVault, enter a passkey which will be used to encrypt
+            stored data. Once set it cannot be changed. If passkey is forgotten,
+            data will be redundant.
+          </p>
+        ) : (
+          ''
+        )}
+        <label htmlFor="passkey-input" className="p-2 mb-[10%]">
           <p className="text-lg">Enter passkey</p>
           <input
             id="passkey-input"
@@ -23,6 +42,11 @@ export default function AuthPage() {
             value={passKeyInputValue}
             onChange={(e) => setPassKeyInputValue(e.target.value)}
           />
+          {!fileExists ? (
+            <PasswordValidityIndicator params={passwordValidityParams} />
+          ) : (
+            ''
+          )}
         </label>
         <div className="self-end flex space-x-2">
           <button

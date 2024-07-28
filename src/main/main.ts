@@ -25,13 +25,14 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('ipc-example', async (event, arg: string) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
+ipcMain.on('db-init', async (event, passkey: string, isCreate: boolean) => {
+  event.reply(
+    'db-init',
+    await db.init(app.getPath('userData'), passkey, isCreate),
+  );
 });
-ipcMain.on('db-init', async (event, args: string) => {
-  event.reply('db-init', await db.init(app.getPath('userData'), args));
+ipcMain.on('db-pre-init', async (event) => {
+  event.reply('db-pre-init', await db.preInit(app.getPath('userData')));
 });
 ipcMain.on('db-get-records', async (event) => {
   const data = await db.getPasswords();
@@ -40,12 +41,12 @@ ipcMain.on('db-get-records', async (event) => {
   }
   event.reply('db-get-records', data);
 });
-ipcMain.on('db-new-password', async (event, key, value) => {
-  const data = await db.newPassword(key, value);
-  if (data === 'wrong_passkey') {
+ipcMain.on('db-new-password', async (event, data) => {
+  const res = await db.newPassword(data);
+  if (res === 'wrong_passkey') {
     event.reply('db-init', false);
   }
-  event.reply('db-new-password', data);
+  event.reply('db-new-password', res);
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -95,7 +96,7 @@ const createWindow = async () => {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
-      devTools: false,
+      // devTools: false,
     },
   });
 

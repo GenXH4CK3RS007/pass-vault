@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import icon from '../../../assets/icon-hor-large.jpg';
 import { useAuthContext } from '../contexts/AuthContext';
 
 export default function Appbar() {
@@ -11,7 +12,11 @@ export default function Appbar() {
         type="button"
         onClick={() => navigate('/')}
       >
-        PassVault
+        <img
+          src={icon}
+          alt="app logo"
+          className="overflow-hidden rounded h-8"
+        />
       </button>
       <div className="flex-grow" />
       <button
@@ -32,7 +37,7 @@ export default function Appbar() {
         }}
       >
         <p>Add Existing</p>
-        <span className="material-symbols-rounded font-bold">add</span>
+        <span className="material-symbols-rounded font-bold">library_add</span>
       </button>
       <button
         className="rounded px-2 py-1 border flex items-center space-x-2 hover:bg-slate-100"

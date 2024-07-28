@@ -1,5 +1,5 @@
 {
-  "description": "A foundation for scalable desktop apps",
+  "description": "A password manager app built on electron-react-boilerplate",
   "keywords": [
     "electron",
     "boilerplate",
@@ -227,8 +227,8 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "owner": "GenXHackers",
+      "repo": "pass-vault"
     }
   },
   "devEngines": {
