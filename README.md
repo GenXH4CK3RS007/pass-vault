@@ -55,6 +55,12 @@ npm run package
 4. Home Page
 <img src=".app-imgs/home-page.png" width="100%"/>
 
+## Demo Video 
+
+<video src="https://github.com/GenXHackers/pass-vault/blob/1.0.0/Pass%20Vault%202024-07-28%2019-56-06.mp4" controls="controls" style="max-width: 730px;">
+</video>
+https://github.com/GenXHackers/pass-vault/blob/1.0.0/Pass%20Vault%202024-07-28%2019-56-06.mp4
+
 ## License
 
 This project is licensed under the GPL-2.0 License.
