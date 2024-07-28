@@ -6,8 +6,11 @@ export default function AuthPage() {
   const navigate = useNavigate();
   const authContext = useAuthContext();
   const [passKeyInputValue, setPassKeyInputValue] = useState<string>('');
+  const handleCancelButtonClick = () => {
+    setPassKeyInputValue('');
+  };
   return (
-    <div className="h-full flex flex-col justify-center items-center from-blue-500 to-violet-600 bg-gradient-to-br">
+    <div className="absolute inset-0 flex flex-col justify-center items-center from-blue-500 to-violet-600 bg-gradient-to-br">
       <div className="flex flex-col w-[20%] min-w-[400px] px-12 py-10 rounded-xl bg-white/90 shadow-2xl">
         <p className="font-emph text-2xl text-center">Sign In</p>
         <hr className="border-b w-full" />
@@ -25,6 +28,7 @@ export default function AuthPage() {
           <button
             className="self-end flex items-center px-4 py-1 rounded border-2 border-slate-200 text-lg"
             type="button"
+            onClick={handleCancelButtonClick}
           >
             <p>Cancel</p>
           </button>

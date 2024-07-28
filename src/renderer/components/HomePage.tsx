@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Password } from '../types';
 import AuthenticatedTemplate from './AuthenticatedTemplate';
+import { getPasswordValidity } from '../hooks/usePasswordValidation';
 
 export default function HomePage() {
   const [passwords, setPasswords] = useState<Password[]>([]);
@@ -13,21 +13,29 @@ export default function HomePage() {
   }, []);
   return (
     <AuthenticatedTemplate>
-      <div>
-        <p className="font-emph">Home</p>
+      <>
+        <p className="font-emph text-xl sticky">Home</p>
         <hr />
-        <ul>
+        <ul className="flex flex-col space-y-2">
           {passwords.map((p) => {
+            const pv = getPasswordValidity(p.value);
             return (
-              <li key={p.id}>
-                <p>{p.key}</p>
-                <p>{p.createdAt.toISOString()}</p>
+              <li
+                key={p.id}
+                className={`p-4 rounded-xl border border-transparent ${pv.length > 3 ? 'bg-red-50 border-red-500' : ''} ${pv.length <= 3 && pv.length > 0 ? 'bg-yellow-50 border-yellow-500' : ''}`}
+              >
+                <p className="text-xl font-semibold">{p.key}</p>
+                <p className="text-sm">
+                  Created On:{' '}
+                  <span className="font-bold">
+                    {p.createdAt.toLocaleDateString()}
+                  </span>
+                </p>
               </li>
             );
           })}
         </ul>
-        <Link to="/auth">auth</Link>
-      </div>
+      </>
     </AuthenticatedTemplate>
   );
 }

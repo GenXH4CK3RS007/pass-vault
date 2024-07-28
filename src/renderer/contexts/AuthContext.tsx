@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
+// import { useErrorContext } from './ErrorContext';
 
 type AuthContext = {
   isAuthenticated: boolean;
@@ -20,13 +21,17 @@ type ProvideAuthContextProps = {
   children: React.ReactNode;
 };
 
-function useProvideAppContext() {
+function useProvideAuthContext() {
+  // const errorContext = useErrorContext();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const login = async (passkey: string) => {
     window.electron.ipcRenderer.sendMessage('db-init', passkey);
     window.electron.ipcRenderer.once('db-init', (res: any) => {
       setIsAuthenticated(res);
+      // if (!res && msg) {
+      //   errorContext.logError!('Authentication', 'erro', msg);
+      // }
     });
     setIsAuthenticated(true);
   };
@@ -45,6 +50,6 @@ function useProvideAppContext() {
 export default function ProvideAuthContext({
   children,
 }: ProvideAuthContextProps) {
-  const auth = useProvideAppContext();
+  const auth = useProvideAuthContext();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 }

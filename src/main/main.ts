@@ -40,6 +40,13 @@ ipcMain.on('db-get-records', async (event) => {
   }
   event.reply('db-get-records', data);
 });
+ipcMain.on('db-new-password', async (event, key, value) => {
+  const data = await db.newPassword(key, value);
+  if (data === 'wrong_passkey') {
+    event.reply('db-init', false);
+  }
+  event.reply('db-new-password', data);
+});
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');

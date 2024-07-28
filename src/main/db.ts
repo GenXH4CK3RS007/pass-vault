@@ -1,11 +1,9 @@
 import { verbose as sqliteVerbose } from 'sqlite3';
 import { Sequelize, DataTypes, ModelCtor, Model } from 'sequelize';
 import crypto from 'crypto';
-// import fs from 'fs/promises';
 import path from 'path';
-// import CryptoJS, { AES } from 'crypto-js';
 
-import EncryptedField from 'sequelize-encrypted';
+const EncryptedField = require('sequelize-encrypted');
 
 export const DB_FILE_NAME = 'pass-vault-data.db';
 export const KEY_FILE_NAME = 'pass-vault-key.dt';
@@ -19,7 +17,7 @@ export async function newPassword(key: string, value: string) {
     password.key = key;
     password.value = value;
     password.save();
-    return password;
+    return true;
   } catch (error) {
     if (error && (error as any).code === 'ERR_OSSL_BAD_DECRYPT') {
       return 'wrong_passkey';
