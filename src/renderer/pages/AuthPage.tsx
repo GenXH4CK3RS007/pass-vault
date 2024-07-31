@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthContext';
 import usePasswordValidation from '../hooks/usePasswordValidation';
-import PasswordValidityIndicator from './PasswordValidityIndicator';
+import PasswordValidityIndicator from '../components/PasswordValidityIndicator';
 
 export default function AuthPage() {
   const authContext = useAuthContext();
@@ -21,9 +21,9 @@ export default function AuthPage() {
   }, []);
   return (
     <div className="absolute inset-0 flex flex-col justify-center items-center from-blue-500 to-violet-600 bg-gradient-to-br">
-      <div className="flex flex-col w-[20%] min-w-[400px] px-12 py-10 rounded-xl bg-white/90 shadow-2xl">
+      <div className="flex flex-col w-[20%] min-w-[400px] px-12 py-10 rounded-xl bg-white/90 dark:bg-black/75 shadow-2xl">
         <p className="font-emph text-2xl text-center">Sign In</p>
-        <hr className="border-b w-full" />
+        <hr className="border-b w-full dark:border-zinc-700" />
         {!fileExists ? (
           <p className="text-sm text-justify mt-[5%]">
             Welcome to PassVault, enter a passkey which will be used to encrypt
@@ -38,7 +38,7 @@ export default function AuthPage() {
           <input
             id="passkey-input"
             type="password"
-            className="border-2 border-slate-300 bg-transparent focus:outline-blue-600 rounded-lg px-4 py-1 w-full"
+            className="border-2 border-zinc-300 dark:border-zinc-500 bg-transparent focus:outline-blue-600 rounded-lg px-4 py-1 w-full"
             value={passKeyInputValue}
             onChange={(e) => setPassKeyInputValue(e.target.value)}
           />
@@ -50,7 +50,7 @@ export default function AuthPage() {
         </label>
         <div className="self-end flex space-x-2">
           <button
-            className="self-end flex items-center px-4 py-1 rounded border-2 border-slate-200 text-lg"
+            className="self-end flex items-center px-4 py-1 rounded border-2 border-zinc-300 dark:border-zinc-500 text-lg"
             type="button"
             onClick={handleCancelButtonClick}
           >

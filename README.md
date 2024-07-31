@@ -24,37 +24,49 @@
 - **sequelize-encrypted NPM library**: A Sequelize plugin to add encrypted fields to models.
 
 # Installation:
+
 ### For Windows
+
 Download the Setup executable file from the releases page and run.
+
 ### For linux or macOS (Build from source)
+
 Clone the repository
+
 ```
 git clone --depth 1 --branch main https://github.com/GenXHackers/pass-vault.git your-project-name
 cd your-project-name
 npm install
 ```
+
 or Install source code from Version 1.0.0 Release
 Package the application for your OS
+
 ```
 npm run package
 ```
+
 # Usage
+
 1. A passkey is prompted initial app use.
-<img src=".app-imgs/initial-sign-in.png" width="100%"/>
+   <img src=".app-imgs/initial-sign-in.png" width="100%"/>
 
-2. Welcome Page
-<img src=".app-imgs/initial-home-page.png" width="100%"/>
+2. Default Sign In Page
+   <img src=".app-imgs/sign-in.png" width="100%"/>
 
-3. New Password page
-<img src="new-page.png" width="100%"/>
+3. Welcome Page
+   <img src=".app-imgs/initial-home-page.png" width="100%"/>
 
-4. Existing Password Page
-<img src=".app-imgs/existing-new-page.png" width="100%"/>
+4. New Password page
+   <img src=".app-imgs/new-page.png" width="100%"/>
 
-4. Home Page
-<img src=".app-imgs/home-page.png" width="100%"/>
+5. Existing Password Page
+   <img src=".app-imgs/existing-new-page.png" width="100%"/>
 
-## Demo Video 
+6. Home Page
+   <img src=".app-imgs/home-page.png" width="100%"/>
+
+## Demo Video
 
 <video src="https://github.com/GenXHackers/pass-vault/blob/1.0.0/Pass%20Vault%202024-07-28%2019-56-06.mp4" controls="controls" style="max-width: 730px;">
 </video>

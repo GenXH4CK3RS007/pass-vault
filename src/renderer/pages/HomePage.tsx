@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import icon from '../../../assets/icon-def.jpg';
 import { Password } from '../types';
-import AuthenticatedTemplate from './AuthenticatedTemplate';
+import AuthenticatedTemplate from '../components/AuthenticatedTemplate';
 import { getPasswordValidity } from '../hooks/usePasswordValidation';
 
 export default function HomePage() {
@@ -27,8 +27,8 @@ export default function HomePage() {
       {passwords !== undefined && passwords.length > 0 ? (
         <>
           <p className="font-emph text-xl sticky">Home</p>
-          <hr />
-          <p className="text-slate-700 text-sm">
+          <hr className="dark:border-zinc-700" />
+          <p className="text-zinc-700 dark:text-zinc-400 text-sm">
             *Hover to show password, click to copy to clipboard.
           </p>
           <div className="flex flex-col space-y-2">
@@ -38,7 +38,7 @@ export default function HomePage() {
                 <button
                   type="button"
                   key={p.id}
-                  className={`p-4 text-left rounded-xl border border-transparent ${pv.length > 3 ? 'bg-red-50 border-red-500' : ''} ${pv.length <= 3 && pv.length > 0 ? 'bg-yellow-50 border-yellow-500' : ''}`}
+                  className={`p-4 text-left rounded-xl border border-transparent ${pv.length > 3 ? 'dark:border-red-900 bg-red-50 border-red-600 dark:bg-red-600/20' : ''} ${pv.length <= 3 && pv.length > 0 ? 'bg-yellow-50 dark:bg-yellow-600/20 border-yellow-500 dark:border-yellow-800' : ''}`}
                   // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
                   onMouseEnter={() => handleItemMouseEnter(p.id)}
                   onMouseLeave={() => handleItemMouseLeave()}
